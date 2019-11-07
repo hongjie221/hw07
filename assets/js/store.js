@@ -27,7 +27,7 @@ function worker_login(
 }
 
 function new_sheet(
-    st0 = { allJobCode: [], job_code: [], hour: [], description: [], error: null },
+    st0 = { allJobCode: [], current_worker_id: -1, job_code: [], hour: [], description: [], date: "", error: null },
     action
 ) {
     switch (action.type) {
@@ -40,6 +40,17 @@ function new_sheet(
                 jobcodes.push(j.jobcode);
             }
             return Object.assign({}, st0, { allJobCode: jobcodes });
+        default:
+            return st0;
+    }
+}
+
+function all_sheet(st0 = { date: [], worker_id: [], id: [], status: [] }, action) {
+    console.log(action.data);
+    switch (action.type) {
+
+        case "SHOW_SHEET":
+            return Object.assign({}, st0, action.data);
         default:
             return st0;
     }
@@ -67,7 +78,8 @@ function root_reducer(st0, action) {
         manager_login,
         worker_login,
         session,
-        new_sheet
+        new_sheet,
+        all_sheet,
     });
     return deepFreeze(reducer(st0, action));
 }

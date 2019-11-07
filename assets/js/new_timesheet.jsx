@@ -6,13 +6,12 @@ import { Form, Button, Alert, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 
 import { submit_new_time_sheet } from "./ajax";
-import {all_job_code} from "./ajax";
+import { all_job_code } from "./ajax";
+
 
 class NewTimesheet extends React.Component {
   constructor(props) {
-    all_job_code();
     super(props);
-    
 
     this.state = {
       allJobCode: props.allJobCode,
@@ -20,6 +19,7 @@ class NewTimesheet extends React.Component {
       hour: ["0", "0", "0", "0", "0", "0", "0", "0"],
       job_code: ["", "", "", "", "", "", "", ""],
       description: ["", "", "", "", "", "", "", ""],
+      date: "",
       redirect: null
     };
     this.changed = this.changed.bind(this);
@@ -36,8 +36,14 @@ class NewTimesheet extends React.Component {
       type: "NEW_TIMESHEET",
       data: data
     });
-    console.log(data)
+    console.log(data);
   }
+
+  handleDateChange(event) {
+    let date = event.target.value;
+    this.setState({date: date});
+  }
+
 
   handleJobCodeChange(i, event) {
     let job_code_t = this.state.job_code;
@@ -120,6 +126,17 @@ class NewTimesheet extends React.Component {
           descriptionChange={e => this.handleDescriptionChange(7, e)}
         />
 
+        <Form.Group controlId="job_code1">
+        <Row>
+          <Col md="4">
+            <Form.Label style={{ fontSize: "20px" }}>Date</Form.Label>
+          </Col>
+          <Col>
+            <Form.Control type="text" onChange={(e) => this.handleDateChange(e)} />
+          </Col>
+        </Row>
+      </Form.Group>
+
         <Form.Group controlId="submit">
           <Button
             variant="primary"
@@ -127,7 +144,9 @@ class NewTimesheet extends React.Component {
               this.changed({
                 job_code: this.state.job_code,
                 hour: this.state.hour,
-                description: this.state.description
+                description: this.state.description,
+                date: this.state.date,
+                current_worker_id: this.state.current_worker_id
               });
               submit_new_time_sheet(this);
             }}
@@ -181,7 +200,5 @@ function SheetInfo(params) {
 function state2props(state) {
   return state.new_sheet;
 }
-
-
 
 export default connect(state2props)(NewTimesheet);

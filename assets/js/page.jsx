@@ -12,6 +12,7 @@ import { Provider, connect } from "react-redux";
 import ManagerLogin from "./manager_login";
 import NewTimesheet from "./new_timesheet";
 import WorkerLogin from "./worker_login";
+import ShowSheet from "./show_timesheet";
 
 import store from "./store";
 
@@ -53,6 +54,11 @@ function Page(props) {
         <Route exact path="/new_timesheet">
           <h1>
             <NewTimesheet />
+          </h1>
+        </Route>
+        <Route exact path="/sheets/show">
+          <h1>
+            <ShowSheet />
           </h1>
         </Route>
       </Switch>

@@ -106,4 +106,20 @@ defmodule Timesheets.Jobs do
   def change_job(%Job{} = job) do
     Job.changeset(job, %{})
   end
+
+  def get_job_code_by_id(job_id) do
+    query = from(j in Job, where: j.id == ^job_id)
+    job = Repo.all(query)
+    job = Enum.at(job, 0)
+    job.jobcode
+  end
+
+  def get_job_id_by_code(job_code) do
+    query = from(j in Job, where: j.jobcode == ^job_code)
+    job = Repo.all(query)
+    job = Enum.at(job, 0)
+    job.id
+  end
+
+
 end
