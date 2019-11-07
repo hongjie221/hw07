@@ -100,11 +100,36 @@ export function submit_login(form) {
 }
 
 export function get_sheet(current_worker_id) {
-    sheets_id = Timesheets.Sheets.get_all_sheet_id_by_worker_id(current_worker_id);
-    sheets_id.map(x => get("/workers/" + current_worker_id).then(resp => {
+    get("/sheets/" + current_worker_id).then(resp => {
+        let date = resp.data.map(item => item.date);
+        let worker_id = resp.data.map(item => item.worker_id);
+        let status = resp.data.map(item => item.status);
+        let id = resp.data.map(item => item.id);
+        let job_code = resp.data.map(item => item.job_code);
+        let hour = resp.data.map(item => item.hour);
+        let desc = resp.data.map(item => desc);
         console.log(resp.data);
-    }))
-
+        if (resp.data) {
+            store.dispatch({
+                type: "SHOW_SHEET",
+                data: {
+                    date: date,
+                    worker_id,
+                    worker_id,
+                    status: status,
+                    id: id,
+                    job_code: job_code,
+                    hour: hour,
+                    desc: desc
+                },
+            });
+        } else {
+            store.dispatch({
+                type: "NEW_TIMESHEET",
+                data: { errors: JSON.stringify(resp.errors) }
+            });
+        }
+    })
 }
 
 export function submit_new_time_sheet(form) {
@@ -115,11 +140,23 @@ export function submit_new_time_sheet(form) {
         let worker_id = resp.data.map(item => item.worker_id);
         let status = resp.data.map(item => item.status);
         let id = resp.data.map(item => item.id);
+        let job_code = resp.data.map(item => item.job_code);
+        let hour = resp.data.map(item => item.hour);
+        let desc = resp.data.map(item => desc);
         console.log(resp.data);
         if (resp.data) {
             store.dispatch({
                 type: "SHOW_SHEET",
-                data: { date: date, worker_id, worker_id, status: status, id: id },
+                data: {
+                    date: date,
+                    worker_id,
+                    worker_id,
+                    status: status,
+                    id: id,
+                    job_code: job_code,
+                    hour: hour,
+                    desc: desc
+                },
             });
             form.redirect("/sheets/show");
         } else {

@@ -129,7 +129,7 @@ class NewTimesheet extends React.Component {
         <Form.Group controlId="job_code1">
         <Row>
           <Col md="4">
-            <Form.Label style={{ fontSize: "20px" }}>Date</Form.Label>
+            <Form.Label style={{ fontSize: "20px" }}>Date(yyyy-mm-dd)</Form.Label>
           </Col>
           <Col>
             <Form.Control type="text" onChange={(e) => this.handleDateChange(e)} />

@@ -72,8 +72,9 @@ defmodule TimesheetsWeb.SheetController do
     end
   end
 
-  def show(conn, %{"current_worker_id" => current_worker_id}) do
-    render(conn, "show.json", current_worker_id: current_worker_id)
+  def show(conn, %{"id" => id}) do
+    #sheet = Sheets.get_sheet!(id)
+    render(conn, "show.json", id: id)
   end
 
   def update(conn, %{"id" => id, "sheet" => sheet_params}) do

@@ -1,7 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import deepFreeze from "deep-freeze-strict";
 
-
 function manager_login(
     st0 = { manager_email: "", manager_password: "", errors: null },
     action
@@ -27,12 +26,20 @@ function worker_login(
 }
 
 function new_sheet(
-    st0 = { allJobCode: [], current_worker_id: -1, job_code: [], hour: [], description: [], date: "", error: null },
+    st0 = {
+        allJobCode: [],
+        current_worker_id: -1,
+        job_code: [],
+        hour: [],
+        description: [],
+        date: "",
+        error: null
+    },
     action
 ) {
     switch (action.type) {
         case "NEW_TIMESHEET":
-            console.log(Object.assign({}, st0, action.data))
+            console.log(Object.assign({}, st0, action.data));
             return Object.assign({}, st0, action.data);
         case "ADD_JOBCODE":
             let jobcodes = [];
@@ -45,12 +52,29 @@ function new_sheet(
     }
 }
 
-function all_sheet(st0 = { date: [], worker_id: [], id: [], status: [] }, action) {
+function all_sheet(
+    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], desc: [] },
+    action
+) {
     console.log(action.data);
+    console.log(action.type);
     switch (action.type) {
-
         case "SHOW_SHEET":
             return Object.assign({}, st0, action.data);
+        default:
+            return st0;
+    }
+}
+
+function all_task(
+    st0 = { sheet: { task_id: [], hours: [], job_id: [], note: [] } },
+    action
+) {
+    console.log(action);
+    switch (action.type) {
+        case "SHOW_TASKS":
+            let st1 = new Map(st0);
+            console.log(action.data);
         default:
             return st0;
     }
@@ -79,7 +103,7 @@ function root_reducer(st0, action) {
         worker_login,
         session,
         new_sheet,
-        all_sheet,
+        all_sheet
     });
     return deepFreeze(reducer(st0, action));
 }
