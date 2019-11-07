@@ -37,7 +37,11 @@ defmodule TimesheetsWeb.SheetController do
 
     integer_hour = Enum.map(integer_hour, fn {x} -> x end)
     {_, total} = Enum.map_reduce(integer_hour, 0, fn x, acc -> {x, x + acc} end)
+    if total === 8 do
 
+    else
+
+    end
   end
 
   def show(conn, %{"id" => id}) do

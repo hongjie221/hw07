@@ -10,23 +10,18 @@ import {all_job_code} from "./ajax";
 
 class NewTimesheet extends React.Component {
   constructor(props) {
+    all_job_code();
     super(props);
-    let new_sheet = connect(({new_sheet}) => ({new_sheet}))(({new_sheet, allJobCode}) => {
-     return 2;
-    });
-    console.log("new sheet");
-    console.log(new_sheet)
-    let allJobCode = all_job_code();
-    console.log(this.props);
+    
 
     this.state = {
+      allJobCode: props.allJobCode,
       current_worker_id: JSON.parse(localStorage.getItem("session")).worker_id,
       hour: ["0", "0", "0", "0", "0", "0", "0", "0"],
       job_code: ["", "", "", "", "", "", "", ""],
       description: ["", "", "", "", "", "", "", ""],
       redirect: null
     };
-    //this.handleJobCodeChange(i) = this.handleJobCodeChange.bind(this, i);
     this.changed = this.changed.bind(this);
   }
 

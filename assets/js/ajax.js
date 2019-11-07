@@ -39,11 +39,15 @@ export function get(path) {
 
 export function all_job_code() {
     get("/jobs").then(resp => {
-        store.dispatch({
-            type: 'ADD_JOBCODE',
-            data: resp.data,
+            store.dispatch({
+                type: 'ADD_JOBCODE',
+                data: resp.data,
+            })
         })
-    })
+        /*get("/jobs").then(resp => {
+            console.log(resp.data)
+            return resp.data;
+        })*/
 }
 
 export function worker_submit_login(form) {
@@ -71,7 +75,6 @@ export function submit_login(form) {
     let state = store.getState();
     let data = state.manager_login;
     session = localStorage.getItem("session");
-    console.log(session);
 
     post("/sessions", data).then(resp => {
         if (resp.token) {

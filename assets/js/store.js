@@ -30,14 +30,16 @@ function new_sheet(
     st0 = { allJobCode: [], job_code: [], hour: [], description: [], error: null },
     action
 ) {
-    console.log("action")
-    console.log(action);
     switch (action.type) {
         case "NEW_TIMESHEET":
+            console.log(Object.assign({}, st0, action.data))
             return Object.assign({}, st0, action.data);
         case "ADD_JOBCODE":
-            console.log("add jobcode")
-            return Object.assign({}, st0, action.data);
+            let jobcodes = [];
+            for (let j of action.data) {
+                jobcodes.push(j.jobcode);
+            }
+            return Object.assign({}, st0, { allJobCode: jobcodes });
         default:
             return st0;
     }
