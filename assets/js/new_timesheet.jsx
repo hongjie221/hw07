@@ -74,6 +74,7 @@ class NewTimesheet extends React.Component {
       error_msg = <Alert variant="danger">{errors}</Alert>;
     }
     return (
+      
       <div>
         <h1>New Time Sheet</h1>
         {error_msg}

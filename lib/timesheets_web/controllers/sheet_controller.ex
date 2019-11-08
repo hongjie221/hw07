@@ -68,6 +68,10 @@ defmodule TimesheetsWeb.SheetController do
       end
 
     else
+      resp = %{errors: ["Invalid input"]}
+      conn
+      |> put_resp_header("content-type", "application/json; charset=UTF-8")
+      |> send_resp(:error, Jason.encode!(resp))
 
     end
   end

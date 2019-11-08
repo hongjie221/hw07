@@ -57,9 +57,8 @@ function Page(props) {
           </h1>
         </Route>
         <Route exact path="/sheets/show">
-          <h1>
             <ShowSheet />
-          </h1>
+          
         </Route>
       </Switch>
     </Router>
