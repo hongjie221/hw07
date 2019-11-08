@@ -79,9 +79,9 @@ defmodule TimesheetsWeb.SheetController do
     render(conn, "show.json", id: id)
   end
 
-  def approve(conn, %{"id" => id}) do
+  def approve(conn, %{"manager_id" => manager_id, "id" => id}) do
     IO.inspect("Hello, it's me")
-    render(conn, "approve.json", id: id)
+    render(conn, "approve.json", manager_id: manager_id, id: id)
   end
 
   def update(conn, %{"id" => id, "sheet" => sheet_params}) do

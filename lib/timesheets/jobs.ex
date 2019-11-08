@@ -121,5 +121,19 @@ defmodule Timesheets.Jobs do
     job.id
   end
 
+  def get_budget_by_code(job_code) do
+    query = from(j in Job, where: j.jobcode == ^job_code)
+    job = Repo.all(query)
+    job = Enum.at(job, 0)
+    job.budget
+  end
+
+  def substract_budget_by_job_code(job_code, hour) do
+    from(j in Job, where: j.jobcode == ^job_code)
+    |> Repo.update_all(set: [budget: get_budget_by_code(job_code) - hour])
+  end
+
+
+
 
 end

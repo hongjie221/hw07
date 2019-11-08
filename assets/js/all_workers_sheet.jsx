@@ -39,7 +39,7 @@ class WorkerTimeSheets extends React.Component {
       );
     }
     let error_msg = null;
-    console.log(error)
+  
     if (error) {
       error_msg = <Alert variant="danger">{error}</Alert>;
     }
@@ -76,9 +76,12 @@ class WorkerTimeSheets extends React.Component {
 }
 
 function ApproveButton(params) {
+
   let {status, id} = params
+  let current_manager_id = JSON.parse(localStorage.getItem("session")).manager_id
+  console.log(current_manager_id)
   if (!status) {
-    return (<th><Button variant="primary" id={id} onClick={(e) => approveSheet(e.target.id)}>
+    return (<th><Button variant="primary" id={id} onClick={(e) => approveSheet(current_manager_id, e.target.id)}>
     Approve
   </Button></th>)
   }

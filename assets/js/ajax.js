@@ -215,14 +215,31 @@ export function submit_new_time_sheet(form) {
     });
 }
 
-export function approveSheet(id) {
-    get("/sheets/approve/" + id).then(resp => {
-        if (resp.token) {
+export function approveSheet(current_manager_id, id) {
+    get("/sheets/approve/" + current_manager_id + "/" + id).then(resp => {
+        let date = resp.data.map(item => item.date);
+        let worker_id = resp.data.map(item => item.worker_id);
+        let status = resp.data.map(item => item.status);
+        let id = resp.data.map(item => item.id);
+        let job_code = resp.data.map(item => item.job_code);
+        let hour = resp.data.map(item => item.hour);
+        let note = resp.data.map(item => item.note);
+        if (resp.data) {
+            console.log(resp.data)
             store.dispatch({
-                type: "SHOW_ALL_WORKER_SHEET",
-                data: resp
+                type: "Approve",
+                data: {
+                    date: date,
+                    worker_id,
+                    worker_id,
+                    status: status,
+                    id: id,
+                    job_code: job_code,
+                    hour: hour,
+                    note: note,
+                },
             });
-            form.redirect("/all_workers_sheet");
+            //form.redirect("/all_workers_sheet")
         } else {
             store.dispatch({
                 type: "MANAGER_LOGIN",

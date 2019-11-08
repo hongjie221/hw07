@@ -52,4 +52,20 @@ defmodule TimesheetsWeb.SheetView do
     date: [], job_code: [], hour: [], note: []}}
   end
 
+  def render("approve.json", %{manager_id: manager_id, id: id}) do
+    Timesheets.Sheets.change_sheet_status_by_id(id)
+    all_task = Timesheets.Tasks.get_task_by_sheet_id(id)
+    Enum.map(all_task, fn {x, y, _} -> {
+      Timesheets.Jobs.substract_budget_by_job_code(x, y)
+    }
+    end
+    )
+    worker_list = Timesheets.Workers.get_workers_by_manager_id(manager_id)
+    sheet_list = Enum.map(worker_list, fn x ->
+      Timesheets.Sheets.get_all_sheet_id_by_worker_id(x) end)
+    sheet_lists = Enum.at(sheet_list, 0)
+    sheets = Enum.map(sheet_lists, fn x -> Timesheets.Sheets.get_sheet!(x) end)
+    %{data: render_many(sheets, SheetView, "sheet.json")}
+  end
+
 end

@@ -71,6 +71,9 @@ function all_worker_sheet(
     switch (action.type) {
         case "SHOW_ALL_WORKER_SHEET":
             return Object.assign({}, st0, action.data);
+        case "Approve":
+            return Object.assign({}, st0, action.data);
+
         default:
             return st0;
     }

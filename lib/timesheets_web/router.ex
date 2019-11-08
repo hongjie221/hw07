@@ -27,7 +27,7 @@ defmodule TimesheetsWeb.Router do
     resources "/workers", WorkerController, except: [:new, :edit]
     resources "/sheets", SheetController
     resources "/jobs", JobController
-    get "/sheets/approve/:id", SheetController, :approve
+    get "/sheets/approve/:manager_id/:id", SheetController, :approve
   end
 
   scope "/", TimesheetsWeb do

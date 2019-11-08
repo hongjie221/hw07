@@ -111,4 +111,9 @@ defmodule Timesheets.Sheets do
     query = from(s in Sheet, where: s.id == ^sheet_id, select: {s.status})
     Enum.map(Repo.all(query), fn {x} -> x end)
   end
+
+  def change_sheet_status_by_id(sheet_id) do
+    from(s in Sheet, where: s.id == ^sheet_id)
+    |> Repo.update_all(set: [status: true])
+  end
 end
