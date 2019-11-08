@@ -7,12 +7,13 @@ import {
   NavLink,
   Link
 } from "react-router-dom";
-import { Navbar, Nav, Col } from "react-bootstrap";
+import { Navbar, Nav, Col, NavItem } from "react-bootstrap";
 import { Provider, connect } from "react-redux";
 import ManagerLogin from "./manager_login";
 import NewTimesheet from "./new_timesheet";
 import WorkerLogin from "./worker_login";
 import ShowSheet from "./show_timesheet";
+import WorkerTimeSheets from "./all_workers_sheet";
 
 import store from "./store";
 
@@ -32,6 +33,7 @@ function Page(props) {
         <Col md="12">
           <Session />
         </Col>
+        <Col md="4"></Col>
       </Navbar>
 
       <Switch>
@@ -51,14 +53,17 @@ function Page(props) {
           </h1>
         </Route>
 
+        <Route exact path="/all_workers_sheet">
+          <WorkerTimeSheets />
+        </Route>
+
         <Route exact path="/new_timesheet">
           <h1>
             <NewTimesheet />
           </h1>
         </Route>
         <Route exact path="/sheets/show">
-            <ShowSheet />
-          
+          <ShowSheet />
         </Route>
       </Switch>
     </Router>
@@ -86,6 +91,22 @@ let Session = connect(({ session }) => ({ session }))(
                 Logout
               </a>
             </Nav.Item>
+            <NavLink
+              to="/new_timesheet"
+              exact
+              activeClassName="active"
+              className="nav-link"
+            >
+              New new_timesheet
+            </NavLink>
+            <NavLink
+              to="/sheets/show"
+              exact
+              activeClassName="active"
+              className="nav-link"
+            >
+              show_timesheet
+            </NavLink>
           </Nav>
         );
       } else {

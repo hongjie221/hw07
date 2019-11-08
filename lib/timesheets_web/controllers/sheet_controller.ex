@@ -68,10 +68,8 @@ defmodule TimesheetsWeb.SheetController do
       end
 
     else
-      resp = %{errors: ["Invalid input"]}
-      conn
-      |> put_resp_header("content-type", "application/json; charset=UTF-8")
-      |> send_resp(:error, Jason.encode!(resp))
+      render(conn, "error.json");
+
 
     end
   end
@@ -81,12 +79,22 @@ defmodule TimesheetsWeb.SheetController do
     render(conn, "show.json", id: id)
   end
 
+  def approve(conn, %{"id" => id}) do
+    IO.inspect("Hello, it's me")
+    render(conn, "approve.json", id: id)
+  end
+
   def update(conn, %{"id" => id, "sheet" => sheet_params}) do
     sheet = Sheets.get_sheet!(id)
 
     with {:ok, %Sheet{} = sheet} <- Sheets.update_sheet(sheet, sheet_params) do
       render(conn, "show.json", sheet: sheet)
     end
+  end
+
+  def edit(conn, %{"id" => id}) do
+    render(conn, "edit.json", id: id)
+
   end
 
   def delete(conn, %{"id" => id}) do

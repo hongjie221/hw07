@@ -27,7 +27,7 @@ function worker_login(
 
 function new_sheet(
     st0 = {
-        allJobCode: [],
+        allJobCode: null,
         current_worker_id: -1,
         job_code: [],
         hour: [],
@@ -53,11 +53,9 @@ function new_sheet(
 }
 
 function all_sheet(
-    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], desc: [] },
+    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], note: [], error: null },
     action
 ) {
-    console.log(action.data);
-    console.log(action.type);
     switch (action.type) {
         case "SHOW_SHEET":
             return Object.assign({}, st0, action.data);
@@ -66,19 +64,18 @@ function all_sheet(
     }
 }
 
-function all_task(
-    st0 = { sheet: { task_id: [], hours: [], job_id: [], note: [] } },
+function all_worker_sheet(
+    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], note: [], error: null },
     action
 ) {
-    console.log(action);
     switch (action.type) {
-        case "SHOW_TASKS":
-            let st1 = new Map(st0);
-            console.log(action.data);
+        case "SHOW_ALL_WORKER_SHEET":
+            return Object.assign({}, st0, action.data);
         default:
             return st0;
     }
 }
+
 
 let session0 = localStorage.getItem("session");
 if (session0) {
@@ -103,7 +100,8 @@ function root_reducer(st0, action) {
         worker_login,
         session,
         new_sheet,
-        all_sheet
+        all_sheet,
+        all_worker_sheet
     });
     return deepFreeze(reducer(st0, action));
 }

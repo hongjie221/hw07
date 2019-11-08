@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { connect } from "react-redux";
-import { Table, Alert} from "react-bootstrap";
+import { Table, Alert, Button} from "react-bootstrap";
 import { Redirect } from "react-router";
-import { get_sheet } from "./ajax";
-
-class ShowTimeSheet extends React.Component {
+import { get_all_worker_sheet } from "./ajax";
+import {approveSheet} from "./ajax";
+class WorkerTimeSheets extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,9 +28,9 @@ class ShowTimeSheet extends React.Component {
     let { date, status, worker_id, id, job_code, hour, note , error} = this.props;
     console.log(this.props)
     if (date.length === 0) {
-      let current_worker_id = JSON.parse(localStorage.getItem("session"))
-        .worker_id;
-      get_sheet(current_worker_id);
+      let current_manager_id = JSON.parse(localStorage.getItem("session"))
+        .manager_id;
+      get_all_worker_sheet(current_manager_id);
       return (
         <div>
           <h1>Show Sheet</h1>
@@ -47,7 +47,6 @@ class ShowTimeSheet extends React.Component {
     
 
     //this.renderTableData();
-    console.log(Array.isArray(job_code));
     return (
       <div>
       {error_msg}
@@ -57,7 +56,8 @@ class ShowTimeSheet extends React.Component {
             <thead>
               <th>Date: {x}</th> 
               <th>Status: {status[i] == true ? "Approved" : "Not Approved" }</th> 
-              <th>worker_id: {worker_id[i]}</th>
+              <th>worker_Name: {worker_id[i]}</th>
+              <ApproveButton status={status[i]} id={id[i]} />
             </thead>
             {job_code[i].map((y, j) => {
               return <tbody>
@@ -74,8 +74,21 @@ class ShowTimeSheet extends React.Component {
     );
   }
 }
-function state2props(state) {
-  return state.all_sheet;
+
+function ApproveButton(params) {
+  let {status, id} = params
+  if (!status) {
+    return (<th><Button variant="primary" id={id} onClick={(e) => approveSheet(e.target.id)}>
+    Approve
+  </Button></th>)
+  }
+  else {
+    return null
+  }
 }
 
-export default connect(state2props)(ShowTimeSheet);
+function state2props(state) {
+  return state.all_worker_sheet;
+}
+
+export default connect(state2props)(WorkerTimeSheets);
