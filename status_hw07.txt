@@ -9,7 +9,8 @@ Hongjie Li
 
 
 2. What's the URL of the github repo with your work for this HW?
-time2.lilydevelop.com
+time2.lilydevelop.com or time3.elephantdong.com(Joker has some problem when
+tied to register my domain. )
 
 
 3. What's the version number of your github release?
