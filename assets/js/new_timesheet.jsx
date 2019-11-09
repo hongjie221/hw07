@@ -105,7 +105,6 @@ class NewTimesheet extends React.Component {
     let { job_code, hour, description, error } = this.props;
 
     let error_msg = null;
-    console.log(error);
     if (error) {
       return (
         <div>
@@ -121,8 +120,8 @@ class NewTimesheet extends React.Component {
           <h1>New Time Sheet</h1>
           {error_msg}
           <div>{this.table()}></div>
-          <button onClick={() => this.handlePlus()}>+</button>
-          <button onClick={() => this.handleMinus()}>-</button>
+          <Button id="button1" variant="primary" onClick={() => this.handlePlus()}>+</Button>
+          <Button id="button2" variant="primary" onClick={() => this.handleMinus()}>-</Button>
 
           <Form.Group controlId="job_code1">
             <Row>
