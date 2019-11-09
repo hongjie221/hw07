@@ -20,6 +20,7 @@ class NewTimesheet extends React.Component {
       job_code: ["", "", "", "", "", "", "", ""],
       description: ["", "", "", "", "", "", "", ""],
       date: "",
+      numOfRow: 1,
       redirect: null
     };
     this.changed = this.changed.bind(this);
@@ -62,6 +63,35 @@ class NewTimesheet extends React.Component {
     this.setState({ description: des_t }, () => console.log(this.state));
   }
 
+  handlePlus() {
+    if (this.state.numOfRow < 8) {
+      this.setState({ numOfRow: this.state.numOfRow + 1 });
+    }
+  }
+  handleMinus() {
+    if (this.state.numOfRow > 1) {
+      this.setState({ numOfRow: this.state.numOfRow - 1 });
+    }
+  }
+
+  table() {
+    let t = [];
+    for (let i = 0; i < this.state.numOfRow; i++) {
+      t.push(
+        <div>
+          <SheetInfo
+            allJobCode={this.state.allJobCode}
+            job_code={this.state.job_code}
+            jobCodeChange={e => this.handleJobCodeChange(i, e)}
+            hourChange={e => this.handleHourChange(i, e)}
+            descriptionChange={e => this.handleDescriptionChange(i, e)}
+          />
+        </div>
+      );
+    }
+    return t;
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -77,111 +107,62 @@ class NewTimesheet extends React.Component {
     let error_msg = null;
     console.log(error);
     if (error) {
-      return <div><Alert variant="danger">{error}</Alert>
-      <p>Refresh to try to submit again</p></div>
+      return (
+        <div>
+          <Alert variant="danger">{error}</Alert>
+          <p>Refresh to try to submit again</p>
+        </div>
+      );
+    } else {
+      this.state.allJobCode = this.props.allJobCode;
+
+      return (
+        <div>
+          <h1>New Time Sheet</h1>
+          {error_msg}
+          <div>{this.table()}></div>
+          <button onClick={() => this.handlePlus()}>+</button>
+          <button onClick={() => this.handleMinus()}>-</button>
+
+          <Form.Group controlId="job_code1">
+            <Row>
+              <Col md="4">
+                <Form.Label style={{ fontSize: "20px" }}>
+                  Date(yyyy-mm-dd)
+                </Form.Label>
+              </Col>
+              <Col>
+                <input
+                  id="input"
+                  type="date"
+                  className="form_control mr-sm-2"
+                  onChange={e => this.handleDateChange(e)}
+                />
+              </Col>
+            </Row>
+          </Form.Group>
+
+          <Form.Group controlId="submit">
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.changed({
+                  job_code: this.state.job_code,
+                  hour: this.state.hour,
+                  description: this.state.description,
+                  date: this.state.date,
+                  current_worker_id: this.state.current_worker_id
+                });
+                submit_new_time_sheet(this);
+              }}
+            >
+              Submit
+            </Button>
+          </Form.Group>
+        </div>
+      );
     }
-    else {
-    this.state.allJobCode = this.props.allJobCode;
-
-    return (
-      <div>
-        <h1>New Time Sheet</h1>
-        {error_msg}
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(0, e)}
-          hourChange={e => this.handleHourChange(0, e)}
-          descriptionChange={e => this.handleDescriptionChange(0, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(1, e)}
-          hourChange={e => this.handleHourChange(1, e)}
-          descriptionChange={e => this.handleDescriptionChange(1, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(2, e)}
-          hourChange={e => this.handleHourChange(2, e)}
-          descriptionChange={e => this.handleDescriptionChange(2, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(3, e)}
-          hourChange={e => this.handleHourChange(3, e)}
-          descriptionChange={e => this.handleDescriptionChange(3, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(4, e)}
-          hourChange={e => this.handleHourChange(4, e)}
-          descriptionChange={e => this.handleDescriptionChange(4, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(5, e)}
-          hourChange={e => this.handleHourChange(5, e)}
-          descriptionChange={e => this.handleDescriptionChange(5, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(6, e)}
-          hourChange={e => this.handleHourChange(6, e)}
-          descriptionChange={e => this.handleDescriptionChange(6, e)}
-        />
-        <SheetInfo
-          allJobCode={this.state.allJobCode}
-          job_code={this.state.job_code}
-          jobCodeChange={e => this.handleJobCodeChange(7, e)}
-          hourChange={e => this.handleHourChange(7, e)}
-          descriptionChange={e => this.handleDescriptionChange(7, e)}
-        />
-
-        <Form.Group controlId="job_code1">
-          <Row>
-            <Col md="4">
-              <Form.Label style={{ fontSize: "20px" }}>
-                Date(yyyy-mm-dd)
-              </Form.Label>
-            </Col>
-            <Col>
-              <input
-                id="input"
-                type="date"
-                className="form_control mr-sm-2"
-                onChange={e => this.handleDateChange(e)}
-              />
-            </Col>
-          </Row>
-        </Form.Group>
-
-        <Form.Group controlId="submit">
-          <Button
-            variant="primary"
-            onClick={() => {
-              this.changed({
-                job_code: this.state.job_code,
-                hour: this.state.hour,
-                description: this.state.description,
-                date: this.state.date,
-                current_worker_id: this.state.current_worker_id
-              });
-              submit_new_time_sheet(this);
-            }}
-          >
-            Submit
-          </Button>
-        </Form.Group>
-      </div>
-    );
-  }}
+  }
 }
 
 function SheetInfo(params) {
