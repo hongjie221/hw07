@@ -1,12 +1,12 @@
-upstream timesheet_app {
-    server localhost:5001;
+upstream timesheets_app {
+    server localhost:5002;
 }
 
 server {
     listen 80;
     listen [::]:80;
 
-    server_name time1.lilydevelop.com;
+    server_name time3.elephantdong.com;
 
     location / {
         proxy_pass http://timesheets_app;
