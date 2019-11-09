@@ -47,8 +47,8 @@ defmodule TimesheetsWeb.SheetView do
     %{data: render_many(sheets, SheetView, "sheet.json")}
   end
 
-  def render("error.json", _) do
-    %{data: %{error: "Invalid Hour", id: [], worker_id: [], status: [],
+  def render("error.json", %{msg: msg}) do
+    %{data: %{error: msg, id: [], worker_id: [], status: [],
     date: [], job_code: [], hour: [], note: []}}
   end
 

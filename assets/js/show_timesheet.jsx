@@ -26,7 +26,6 @@ class ShowTimeSheet extends React.Component {
       return <Redirect to={this.state.redirect} />;
     }
     let { date, status, worker_id, id, job_code, hour, note , error} = this.props;
-    console.log(this.props)
     if (date.length === 0) {
       let current_worker_id = JSON.parse(localStorage.getItem("session"))
         .worker_id;
@@ -55,15 +54,18 @@ class ShowTimeSheet extends React.Component {
         {date.map((x, i) => (
           <div>
             <thead>
-              <th>Date: {x}</th> 
-              <th>Status: {status[i] == true ? "Approved" : "Not Approved" }</th> 
-              <th>worker_id: {worker_id[i]}</th>
+              <tr>
+              <th>Date:{x}</th> 
+              <th>Status:{status[i] == true ? "Approved" : "Not Approved" }</th> 
+              <th>worker_id:{worker_id[i]}</th>
+              </tr>
             </thead>
             {job_code[i].map((y, j) => {
               return <tbody>
                 <tr>
-                  {" "}
-                  <td>JobCode: {job_code[i][j]}</td> <td>Hour: {hour[i][j]}</td><td> Note:{note[i][j]}</td>
+                  <td>JobCode:{job_code[i][j]}</td>
+                  <td>Hour: {hour[i][j]}</td>
+                  <td>Note:{note[i][j]}</td>
               </tr>
               </tbody>;
             })}

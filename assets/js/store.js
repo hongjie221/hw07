@@ -53,7 +53,7 @@ function new_sheet(
 }
 
 function all_sheet(
-    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], note: [], error: null },
+    st0 = { date: [], worker_id: [], id: [], status: [], job_code: null, hour: [], note: [], error: null },
     action
 ) {
     switch (action.type) {
@@ -65,7 +65,7 @@ function all_sheet(
 }
 
 function all_worker_sheet(
-    st0 = { date: [], worker_id: [], id: [], status: [], job_code: [], hour: [], note: [], error: null },
+    st0 = { date: null, worker_id: [], id: [], status: [], job_code: [], hour: [], note: [], error: null },
     action
 ) {
     switch (action.type) {

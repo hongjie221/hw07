@@ -77,11 +77,11 @@ class NewTimesheet extends React.Component {
     let error_msg = null;
     console.log(error);
     if (error) {
-      error_msg = <Alert variant="danger">{error}</Alert>;
+      return <div><Alert variant="danger">{error}</Alert>
+      <p>Refresh to try to submit again</p></div>
     }
+    else {
     this.state.allJobCode = this.props.allJobCode;
-    let code = this.state.allJobCode[0];
-    this.state.job_code = [code, code, code, code, code, code, code, code];
 
     return (
       <div>
@@ -181,7 +181,7 @@ class NewTimesheet extends React.Component {
         </Form.Group>
       </div>
     );
-  }
+  }}
 }
 
 function SheetInfo(params) {
@@ -204,7 +204,6 @@ function SheetInfo(params) {
           className="select"
           options={allJobCode}
           onChange={jobCodeChange}
-          defaultValue={allJobCode[0]}
           style={{ size: "20px" }}
         />
       </Form.Group>

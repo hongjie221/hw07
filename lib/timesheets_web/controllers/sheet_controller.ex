@@ -44,7 +44,7 @@ defmodule TimesheetsWeb.SheetController do
       IO.inspect(x)
     }end)
     {:ok, date} = (Date.from_iso8601(date))
-    if total === 8 do
+    if total <= 8 do
       case Timesheets.Sheets.create_sheet(%{
         date: date,
         worker_id: current_worker_id,
@@ -62,13 +62,13 @@ defmodule TimesheetsWeb.SheetController do
           end}
         end)
         render(conn, "show.json", current_worker_id: current_worker_id)
-        {:error, msg} -> resp = %{errors: msg}
+        {:error, msg} -> render(conn, "error.json", msg: msg)
         IO.inspect(msg)
 
       end
 
     else
-      render(conn, "error.json");
+      render(conn, "error.json", msg: "Invalid hour");
 
 
     end

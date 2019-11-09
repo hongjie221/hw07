@@ -27,7 +27,7 @@ class WorkerTimeSheets extends React.Component {
     }
     let { date, status, worker_id, id, job_code, hour, note , error} = this.props;
     console.log(this.props)
-    if (date.length === 0) {
+    if (!date) {
       let current_manager_id = JSON.parse(localStorage.getItem("session"))
         .manager_id;
       get_all_worker_sheet(current_manager_id);
